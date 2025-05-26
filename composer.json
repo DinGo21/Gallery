@@ -1,0 +1,9 @@
+{
+    "name": "diegosantamaria/gallery",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {}
+}
