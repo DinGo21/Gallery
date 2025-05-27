@@ -2,13 +2,13 @@
 
 namespace App\Controllers;
 
-class Controller
+abstract class AbstractController
 {
 	protected function render(string $view, array $data = []): void
 	{
 		extract($data);
 
-		include "src/Views/$view.php";
+		include "resources/views/$view.php";
 	}
 };
 

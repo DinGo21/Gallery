@@ -2,10 +2,21 @@
 
 namespace App\Controllers;
 
-class HomeController extends Controller
+use App\Models\Post;
+
+class HomeController extends AbstractController
 {
 	public function index(): void
 	{
-		$this->render('index');
-	}	
+		$post = new Post();
+		$post->setAuthor('Cat Lover');
+		$post->setTitle('Cat in the snow');
+		$post->setImageUrl('public/img/cat.jpg');
+		$post->setDescription('An image depicting a cat in the snow');
+
+		$this->render('index', [
+			'post' => $post,
+		]);
+	}
 };
+
