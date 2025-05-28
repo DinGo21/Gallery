@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Database\Connection;
 
-class Post
+class Post extends AbstractModel
 {
-	private ?int $id = null;
+	protected string $table = 'posts';
 
 	private ?string $author = null;
 
@@ -16,20 +16,14 @@ class Post
 
 	private ?string $description = null;
 
-	public function findById(int $id): Post
+	public function store(): void
 	{
 		$connection = new Connection();
-		$query = "SELECT * FROM posts WHERE `id` = $id;";
+		$query = "INSERT INTO posts(author, title, imageUrl, description)
+			 VALUES ('$this->author', '$this->title', '$this->imageUrl',
+			'$this->description');";
 
-		$result = $connection->execQuery($query)->fetc_assoc();
-		$post = new Post();
-		$post->id = $result['id'];
-		$post->author = $result['author'];
-		$post->title = $result['title'];
-		$post->title = $result['imageUrl'];
-		$post->title = $result['description'];
-
-		return $post;
+		$connection->execQuery($query);
 	}
 
 	public function getId(): ?int

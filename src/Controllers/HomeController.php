@@ -8,13 +8,18 @@ class HomeController extends AbstractController
 {
 	public function index(): void
 	{
-		$post = new Post();
-		$post->setAuthor('Cat Lover');
-		$post->setTitle('Cat in the snow');
-		$post->setImageUrl('public/img/cat.jpg');
-		$post->setDescription('An image depicting a cat in the snow');
-
+		$posts = new Post()->findAll();
+		
 		$this->render('index', [
+			'posts' => $posts,
+		]);
+	}
+
+	public function show(int $id): void
+	{
+		$post = new Post()->findById($id);
+
+		$this->render('show', [
 			'post' => $post,
 		]);
 	}
