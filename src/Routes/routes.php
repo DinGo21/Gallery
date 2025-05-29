@@ -7,5 +7,7 @@ $router = new Router();
 
 $router->get('/', HomeController::class, 'index');
 
+$router->get('/post', HomeController::class, 'show');
+
 $router->dispatch();
 

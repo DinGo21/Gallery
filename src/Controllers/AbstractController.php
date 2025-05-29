@@ -10,5 +10,5 @@ abstract class AbstractController
 
 		include "resources/views/$view.php";
 	}
-};
+}
 

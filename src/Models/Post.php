@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Database\Connection;
-
 class Post extends AbstractModel
 {
 	protected string $table = 'posts';
@@ -15,16 +13,6 @@ class Post extends AbstractModel
 	private ?string $imageUrl = null;
 
 	private ?string $description = null;
-
-	public function store(): void
-	{
-		$connection = new Connection();
-		$query = "INSERT INTO posts(author, title, imageUrl, description)
-			 VALUES ('$this->author', '$this->title', '$this->imageUrl',
-			'$this->description');";
-
-		$connection->execQuery($query);
-	}
 
 	public function getId(): ?int
 	{
@@ -70,5 +58,5 @@ class Post extends AbstractModel
 	{
 		return $this->description;
 	}
-};
+}
 

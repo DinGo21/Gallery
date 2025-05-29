@@ -2,6 +2,11 @@
 
 source .env
 
+if [ $1 = "--fresh" ]; then
+	mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD -e\
+		"DROP DATABASE $DB_DATABASE;"
+fi
+
 mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD -e\
 	"CREATE DATABASE IF NOT EXISTS $DB_DATABASE;
 	CREATE TABLE $DB_DATABASE.posts (

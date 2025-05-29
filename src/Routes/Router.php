@@ -14,6 +14,7 @@ class Router
 
 	public function get(string $route, string $controller, string $action): void
 	{
+
 		$this->addRoute($route, $controller, $action, 'GET');
 	}
 	
@@ -25,6 +26,7 @@ class Router
 	public function dispatch(): void
 	{
 		$uri = strtok($_SERVER['REQUEST_URI'], '?');
+		
 		$method = $_SERVER['REQUEST_METHOD'];
 
 		if (!array_key_exists($uri, $this->routes[$method])) {
@@ -37,5 +39,5 @@ class Router
 		$controller = new $controller();
 		$controller->$action();
 	}
-};
+}
 
