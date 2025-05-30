@@ -64,21 +64,38 @@ abstract class AbstractModel
 		return $object;
 	}
 
-	private function prepareStoreQuery(): string
+    /**
+     * @return array<string,string[]>
+     */
+    private function prepareGetters(bool $removeId = false): array
 	{
 		$methods = get_class_methods(get_class($this));
 		$getters = [];
 		$vars = [];
-		
-		unset($methods[array_search('getId', $methods, true)]);
 
-		foreach($methods as $method) {
+		if ($removeId) {
+			unset($methods[array_search('getId', $methods, true)]);
+		}
+
+		foreach ($methods as $method) {
 			if (!strncmp($method, 'get', 3)) {
 				$getters[] = $method;
-				$vars[] = lcfirst(substr($method, 3, strlen($method) - 3));
+				$vars[] = lcfirst(substr($method, 3, strlen($method) - 3));	
 			}
 		}
 
+		return [
+			'getters' => $getters,
+			'vars' => $vars,
+		];
+	}
+
+	private function prepareStoreQuery(): string
+	{
+		$data = $this->prepareGetters(true);
+		$getters = $data['getters'];
+		$vars = $data['vars'];
+		
 		$query = "INSERT INTO $this->table (";
 		
 		foreach ($vars as $key => $var) {
@@ -102,16 +119,9 @@ abstract class AbstractModel
 
 	public function prepareUpdateQuery(): string
 	{
-		$methods = get_class_methods(get_class($this));
-		$getters = [];
-		$vars = [];
-
-		foreach($methods as $method) {
-			if (!strncmp($method, 'get', 3)) {
-				$getters[] = $method;
-				$vars[] = lcfirst(substr($method, 3, strlen($method) - 3));
-			}
-		}
+		$data = $this->prepareGetters();
+		$getters = $data['getters'];
+		$vars = $data['vars'];
 
 		$query = "UPDATE $this->table SET ";
 

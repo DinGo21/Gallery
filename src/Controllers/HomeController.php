@@ -14,15 +14,5 @@ class HomeController extends AbstractController
 			'posts' => $posts,
 		]);
 	}
-
-	public function show(): void
-	{
-		$id = (int)$_GET['id'];
-		$post = new Post()->findById($id);
-
-		$this->render('show', [
-			'post' => $post,
-		]);
-	}
 }
 

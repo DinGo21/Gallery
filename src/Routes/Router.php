@@ -6,6 +6,12 @@ class Router
 {
 	private array $routes = [];
 
+	public static function redirect(string $url, int $redirectStatus = 302): void
+	{
+		header('Location:' . $url, true, $redirectStatus);
+		die();
+	}
+
 	private function addRoute(string $route, string $controller, string $action,
 		string $method): void
 	{
@@ -30,7 +36,8 @@ class Router
 		$method = $_SERVER['REQUEST_METHOD'];
 
 		if (!array_key_exists($uri, $this->routes[$method])) {
-			throw new \Exception("No route found for URI: $uri");
+			http_response_code(404);
+			die();
 		}
 
 		$controller = $this->routes[$method][$uri]['controller'];
