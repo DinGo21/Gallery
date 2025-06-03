@@ -1,18 +1,23 @@
 <?php
 	include_once 'components/header.php';
 ?>
-
-	<h2>Title</h2>
-
-	<div>
-		<?php if (!empty($posts)): ?>
-			<?php foreach ($posts as $post): ?>
-				<h4><?= $post->getTitle() ?></h4>
-				<img src="<?= $post->getImageUrl() ?>">
-				<p><?= $post->getAuthor() ?></p>
-				<p><?= $post->getDescription() ?></p>
-			<?php endforeach; ?>
-		<?php endif; ?>
+	<div class="container">
+		<h1 class="text-center mb-4">Lasts Images</h1>
+		<div class="row row-cols-1 row-cols-md-2 g-4">
+			<?php if (!empty($posts)): ?>
+				<?php foreach ($posts as $post): ?>
+					<div class="col">
+						<div class="card text-bg-light">
+							<img src="<?= $post->getImageUrl() ?>" class="card-img-top" alt="<?= $post->getDescription() ?>">
+							<div class="card-body">
+								<h4 class="card-title"><?= $post->getTitle() ?></h4>
+								<p class="card-text"><?= $post->getAuthor() ?></p>
+							</div>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php endif; ?>
+		</div>
 	</div>
 
 <?php

@@ -9,8 +9,12 @@
 	<link href="/public/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<header>
-		<h1>Gallery</h1>
+	<header class="mb-4">
+		<nav class="navbar bg-body-tertiary mb-2">
+			<div class="container-fluid">
+				<a class="navbar-brand mb-0" href="/"><span class="h3">Gallery</span></a>
+			</div>
+		</nav>
 	</header>
 	<main>
 
