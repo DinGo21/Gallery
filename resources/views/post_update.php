@@ -5,7 +5,7 @@
 	<h2>Update Post</h2>
 	<div>
 		<form method="POST" action="/posts/update">
-			<input name="id" class="form-text" id="id" value="<?= $post->getId() ?>" disabled hidden>
+			<input type="hidden" name="id" class="form-text" id="id" value="<?= $post->getId() ?>">
 			<div>
 				<label for="author" class="form-label">Author</label>
 				<input name="author" type="text" class="form-control" id="author">
