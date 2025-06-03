@@ -5,5 +5,13 @@
             "App\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "twbs/bootstrap": "5.3.6"
+    },
+	"scripts": {
+		"post-update-cmd": [
+			"rm -rf public/bootstrap",
+			"cp -R vendor/twbs/bootstrap/dist public/bootstrap"
+		]
+	}
 }

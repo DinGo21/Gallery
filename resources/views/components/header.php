@@ -6,9 +6,7 @@
 
 	<title>Gallery</title>
 
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+	<link href="/public/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 	<header>
