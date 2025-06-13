@@ -17,3 +17,4 @@ mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD -e\
 		description TEXT(500) NOT NULL,
 		PRIMARY KEY(id)
 		);"
+

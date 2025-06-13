@@ -9,10 +9,10 @@
 	<link href="/public/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<header class="mb-4">
-		<nav class="navbar bg-body-tertiary mb-2">
+	<header class="sticky-top mb-4">
+		<nav class="navbar bg-light" data-bs-theme="light">
 			<div class="container-fluid">
-				<a class="navbar-brand mb-0" href="/"><span class="h3">Gallery</span></a>
+				<a class="navbar-brand mb-0 h3" href="/">Gallery</a>
 			</div>
 		</nav>
 	</header>
