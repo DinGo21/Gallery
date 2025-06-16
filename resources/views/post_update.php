@@ -5,8 +5,7 @@
 	    <h1 class="text-center mb-4">Update Post</h1>
 	    <div class="card">
             <div class="card-body">
-		        <form method="POST" action="/posts/update">
-			        <input type="hidden" name="id" class="form-text" id="id" value="<?= $post->getId() ?>">
+            <form method="POST" action="/posts/<?= $post->getId() ?>/update">
 			        <div class="mb-2">
 				        <label for="author" class="form-label">Author</label>
 				        <input name="author" type="text" class="form-control" id="author">
