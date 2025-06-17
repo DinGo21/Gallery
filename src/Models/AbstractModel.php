@@ -157,5 +157,13 @@ abstract class AbstractModel
 		$connection = new Connection();
 		$connection->execQuery($this->prepareUpdateQuery());
 	}
+
+    public function delete(): void
+    {
+        $connection = new Connection();
+        $connection->execQuery("DELETE FROM {$this->table} WHERE id = '{$this->id}'");
+
+        $this->id = null;
+    }
 }
 

@@ -6,6 +6,11 @@ use App\Models\Post;
 
 class PostController extends AbstractController
 {
+    public function index(): void
+    {
+
+    }
+
 	public function show(int $id): void
 	{
 		$post = new Post()->findById($id);
@@ -50,5 +55,13 @@ class PostController extends AbstractController
 			'post' => $post,
 		]);
 	}
+
+    public function delete(int $id): void
+    {
+        $post = new Post()->findById($id);
+        $post->delete();
+
+        $this->redirect('/');
+    }
 }
 

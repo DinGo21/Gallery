@@ -3,6 +3,11 @@
 ?>
 	<div class="container">
 		<h1 class="text-center mb-4">Lasts Images</h1>
+        <div class="mb-4">
+            <form method="GET" action="/posts">
+                <input name="title" type="text" class="form-control" placeholder="Search posts">                
+            </form>
+        </div>
 		<div class="row row-cols-1 row-cols-md-2 g-4">
 			<?php if (!empty($posts)): ?>
 				<?php foreach ($posts as $post): ?>
