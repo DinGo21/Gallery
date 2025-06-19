@@ -22,7 +22,7 @@ abstract class AbstractModel
 	{
 		$data = [];
 		$connection = new Connection();
-		$query = "SELECT * FROM $this->table;";
+		$query = "SELECT * FROM $this->table";
 		$result = $connection->execQuery($query);
 
 		foreach ($result as $row) {
@@ -44,7 +44,7 @@ abstract class AbstractModel
 	public function findById(int $id): ?AbstractModel
 	{
 		$connection = new Connection();
-		$query = "SELECT * FROM $this->table WHERE id = '$id';";
+		$query = "SELECT * FROM $this->table WHERE id = '$id'";
 		$result = $connection->execQuery($query);
 		$result = $result->fetch_assoc();
 
@@ -90,12 +90,15 @@ abstract class AbstractModel
 		];
 	}
 
-	private function prepareStoreQuery(): string
+    /**
+     * @return array<string,mixed>
+     */
+    private function prepareStoreQuery(): array
 	{
 		$data = $this->prepareGetters(true);
 		$getters = $data['getters'];
-		$vars = $data['vars'];
-		
+        $vars = $data['vars'];
+        $params = [];
 		$query = "INSERT INTO $this->table (";
 		
 		foreach ($vars as $key => $var) {
@@ -104,45 +107,60 @@ abstract class AbstractModel
 			if ($key != array_key_last($vars))
 				$query = $query . ', ';
 		}
+
 		$query = $query . ') VALUES (';
 
 		foreach ($getters as $key => $get) {
-			$query = $query . '\'' . $this->$get() . '\'';
+            $query = $query . '?';
+            $params[] = $this->$get();
 
 			if 	($key != array_key_last($getters))
 				$query = $query . ', ';
-		}
-		$query = $query . ');';
+        }
 
-		return $query;
+		$query = $query . ')';
+
+        return [
+            'query' => $query,
+            'params' => $params
+        ];
 	}
 
-	public function prepareUpdateQuery(): string
+    /**
+     * @return array<string,mixed>
+     */
+    public function prepareUpdateQuery(): array
 	{
 		$data = $this->prepareGetters();
 		$getters = $data['getters'];
-		$vars = $data['vars'];
-
+        $vars = $data['vars'];
+        $params = [];
 		$query = "UPDATE $this->table SET ";
 
 		foreach ($getters as $key => $get) {
-			$query = $query . $vars[$key] . ' = ' . '\'' . $this->$get() . '\'';
+            $query = $query . $vars[$key] . ' = ' . '?';
+            $params[] = $this->$get();
 
 			if ($key != array_key_last($getters))
 				$query = $query . ', ';
 		}
 		
-		$query = $query . " WHERE id = $this->id;";
+        $query = $query . " WHERE id = ?";
+        $params[] = $this->id;
 
-		return $query;
+        return [
+            'query' => $query,
+            'params' => $params
+        ];
 	}
 
 	public function store(): void
 	{
 		$connection = new Connection();
-		$connection->execQuery($this->prepareStoreQuery());
+        $data = $this->prepareStoreQuery();
+		$connection->execPreparedQuery($data['query'], $data['params']);
 
-		$query = "SELECT id FROM $this->table ORDER BY id DESC LIMIT 1;";
+		$query = "SELECT id FROM $this->table ORDER BY id DESC LIMIT 1";
 		$result = $connection->execQuery($query)->fetch_assoc();
 
 		$this->id = $result['id'];
@@ -154,14 +172,15 @@ abstract class AbstractModel
 			throw new \Exception('Cannot Update: Entity is not inside the database');	
 		}
 
-		$connection = new Connection();
-		$connection->execQuery($this->prepareUpdateQuery());
+        $connection = new Connection();
+        $data = $this->prepareUpdateQuery();
+		$connection->execPreparedQuery($data['query'], $data['params']);
 	}
 
     public function delete(): void
     {
         $connection = new Connection();
-        $connection->execQuery("DELETE FROM {$this->table} WHERE id = '{$this->id}'");
+        $connection->execQuery("DELETE FROM $this->table WHERE id = '$this->id'");
 
         $this->id = null;
     }

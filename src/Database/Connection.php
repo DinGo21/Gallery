@@ -36,6 +36,41 @@ class Connection
 		return $mysqli;
 	}
 
+    /**
+     * @param array<int,mixed> $params
+     */
+    public function execPreparedQuery(string $query, array $params): mixed
+    {
+        $stmt = $this->mysqli->prepare($query);
+        $types = '';
+
+        foreach($params as $param) {
+            switch (gettype($param)) {
+                case 'string':
+                    $types = $types . 's';
+                    break;
+                case 'integer':
+                    $types = $types . 'i';
+                    break;
+                case 'double':
+                    $types = $types . 'd';
+                    break;
+                case 'boolean':
+                    $types = $types . 'b';
+                    break;
+                default:
+                    throw new \Exception('Unsupported type for prepared statement: ' . $param);
+                    break;
+            }
+        }
+
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result;
+    }
+
 	public function execQuery(string $query): mixed
 	{
 		$result = $this->mysqli->query($query);	
